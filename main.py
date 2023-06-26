@@ -16,7 +16,6 @@ def extraccion_data(pagina, archivo_pdf):
         return texto_extraido
     
 def extract_text_from_pdf(pdf_path, pagina):
-    # extraer texto de la páagina de la variable pagina 
     text = extract_text(pdf_path, page_numbers=[pagina], laparams=LAParams())
     return text
 
@@ -32,17 +31,17 @@ def obtener_pedimento(texto):
     pedimento = re.search(r'(\d{7}\s\d{4}\s\d{2}\s\d{2})', texto)
     if pedimento:
         cadena = pedimento.group(1)
-        numeros = cadena.split()  # Separa la cadena en una lista de números
-        numeros = [int(num) for num in numeros]  # Convierte los elementos en números enteros
-        numeros.sort()  # Ordena la lista en orden ascendente
-        numeros = [str(num) for num in numeros]  # Convierte los números ordenados en cadenas de texto
+        numeros = cadena.split()  
+        numeros = [int(num) for num in numeros]  
+        numeros.sort()  
+        numeros = [str(num) for num in numeros]  
         pedimento = " ".join(numeros) 
         return pedimento
     else:
         return None
     
 def extraer_fechas(texto):
-    patron = r"\d{2}/\d{2}/\d{4}"  # Expresión regular para encontrar fechas en formato dd/mm/yyyy
+    patron = r"\d{2}/\d{2}/\d{4}"  
     fechas = re.findall(patron, texto)
     fecha_entrada = fechas[0]
     fecha_pago = fechas[1]
@@ -70,7 +69,6 @@ def dta(texto):
 
 def prv(texto):
     expresion_regular = r"OTROS 0 (\d+)"
-    # Buscar el valor en el texto
     coincidencias = re.findall(expresion_regular, texto)
     if coincidencias:
         valor = coincidencias[0]
@@ -97,8 +95,6 @@ def total_pagado(texto):
 
 def peso(texto):
     expresion_regular = r"(\d+)\.\d+ VER"
-
-    # Buscar el peso en el texto
     resultado = re.search(expresion_regular, texto)
 
     if resultado:
@@ -108,7 +104,6 @@ def peso(texto):
         return None
 
 def fecha_factura(texto):
-    # patron de fecha donde si hay un 14/06/2023 16:23:44 ignorar la fecha y tomar la siguiente
     patron = r"\d{2}/\d{2}/\d{4}\s\d{2}:\d{2}:\d{2}"
     patron2 = r"\d{2}/\d{2}/\d{4}"
 
